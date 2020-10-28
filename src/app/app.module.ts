@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './login/login.module';
 import { SharedModule } from './shared/shared.module';
 import { environment } from '../environments/environment';
+import { CustomerModule } from './customer/customer.module';
 export function tokenGetter() {
   return sessionStorage.getItem('token');
 }
@@ -38,7 +39,8 @@ export const whitelistedDomains = [new RegExp('[\s\S]*')] as RegExp[];
     SharedModule,
     AdminModule,
     LoginModule,
-    KioskModule
+    KioskModule,
+    CustomerModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

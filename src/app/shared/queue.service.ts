@@ -377,4 +377,10 @@ export class QueueService {
     return this.httpClient.get(_url, _httpOptions).toPromise();
   }
 
+  async getQueueInfo(queueId: any) {
+    const _url = `${this.apiUrl}/queue/info`;
+    return await this.httpClient.post(_url, {
+      queueId: queueId
+    }, this.httpOptions).toPromise();
+  }
 }

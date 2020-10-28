@@ -1,5 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
-import * as screenfull from 'screenfull';
+import { Screenfull } from 'screenfull';
+// import * as screenfull from 'screenfull';
+declare const screenfull: Screenfull;
 
 @Directive({
   selector: '[appToggleFullscreen]'
@@ -7,11 +9,15 @@ import * as screenfull from 'screenfull';
 export class ToggleFullscreenDirective {
 
   constructor() { }
-
-  @HostListener('click') onClick() {
+  @HostListener('click') onClick(event) {
     if (screenfull.enabled) {
-      screenfull.toggle();
+      screenfull.toggle(event.target);
     }
   }
+  // @HostListener('click') onClick() {
+  //   if (screenfull.enabled) {
+  //     screenfull.toggle();
+  //   }
+  // }
 
 }

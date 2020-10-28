@@ -1,0 +1,63 @@
+<div class="queue-container">
+<div class="QUEUE" ng-if="result">
+  <section class="sheet padding-5mm center">
+    <div class="justify-content-center">
+      <table style="width: 100%;">
+        <tbody>
+          <tr>
+            <td style="text-align: center;">
+              <img src="../../assets/images/h4u.png" style="width: 100px; height: 100px;" />
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">
+              <span style="font-size: 1.5rem; font-weight: bold;">
+                {{result.hosname}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">
+              <span style="font-size: 1.5rem; font-weight: bold;">
+               {{result.service_point_name}}</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">
+              <span style="font-size: 4rem; font-weight: bold;">
+                {{result.queue_number}}</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="text-align: center;">
+              <span>
+                ประเภท
+                {{result.priority_name}}</span>
+            </td>
+          </tr>
+          <!-- <tr>
+            <td style="text-align: center;">
+              <img style='width:180px;height:180px;' src='<%=qrcode%>' />
+            </td>
+          </tr> -->
+          <tr>
+            <td style="text-align: center;">
+              จำนวนคิวที่รอ
+              <strong>
+                {{result.queue_running}}</strong> คิว
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center;">
+              <code>{{result.date_create}}</code>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </section>
+</div>
+</div>

@@ -1,0 +1,10 @@
+@import '../../../assets/css/bootstrap.min.css';
+@import '../../../assets/css/paper.css';
+.QUEUE {
+  max-width: 30rem;
+}
+.queue-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
