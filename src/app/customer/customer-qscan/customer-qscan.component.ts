@@ -15,8 +15,8 @@ import { CountdownComponent } from 'ngx-countdown';
 })
 export class CustomerQscanComponent implements OnInit {
   @ViewChild(CountdownComponent) counter: CountdownComponent;
-  private queueId: string;
-  private result: any;
+  queueId: string;
+  result: any;
 
   jwtHelper = new JwtHelperService();
   servicePointTopic = null;
