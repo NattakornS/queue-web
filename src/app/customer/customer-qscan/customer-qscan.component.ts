@@ -7,6 +7,7 @@ import * as mqttClient from '../../../vendor/mqtt';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertService } from 'src/app/shared/alert.service';
 import { CountdownComponent } from 'ngx-countdown';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-customer-qscan',
@@ -17,7 +18,7 @@ export class CustomerQscanComponent implements OnInit {
   @ViewChild(CountdownComponent) counter: CountdownComponent;
   queueId: string;
   result: any;
-
+  topic: any;
   jwtHelper = new JwtHelperService();
   servicePointTopic = null;
   servicePointId: any;
@@ -52,6 +53,7 @@ export class CustomerQscanComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(async params => {
       this.queueId = params['queueId'];
+      this.topic = params['topic'];
       this.token = params.token || null;
         if (this.token) {
           sessionStorage.setItem('token', params.token);
@@ -139,8 +141,8 @@ export class CustomerQscanComponent implements OnInit {
       console.log(error);
     }
 
-    const topic = `${this.servicePointTopic}/${this.servicePointId}`;
-    console.log(topic);
+    // const topic = `${this.servicePointTopic}/${this.servicePointId}`;
+    // const topic = environment.notifyTopic;
     const that = this;
 
     this.client.on('message', async (topic, payload) => {
@@ -173,7 +175,7 @@ export class CustomerQscanComponent implements OnInit {
         that.isOffline = false;
       });
 
-      that.client.subscribe(topic, (error) => {
+      that.client.subscribe(this.topic, (error) => {
         if (error) {
           that.zone.run(() => {
             that.isOffline = true;
