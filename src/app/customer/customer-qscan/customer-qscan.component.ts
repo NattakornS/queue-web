@@ -88,6 +88,7 @@ export class CustomerQscanComponent implements OnInit {
             } else {
               if (this.servicePointId) {
                 // this.onSelectedPoint({ 'service_point_id': this.servicePointId, 'service_point_name': this.servicePointName });
+                this.initialSocket();
               } else {
                 this.initialSocket();
               }
