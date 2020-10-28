@@ -175,7 +175,7 @@ export class CustomerQscanComponent implements OnInit {
         that.isOffline = false;
       });
 
-      that.client.subscribe(this.topic, (error) => {
+      that.client.subscribe(that.topic, (error) => {
         if (error) {
           that.zone.run(() => {
             that.isOffline = true;
