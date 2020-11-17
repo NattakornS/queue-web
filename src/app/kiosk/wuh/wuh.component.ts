@@ -20,6 +20,7 @@ export class WuhComponent implements OnInit {
   btnSelectServicePoint = false;
   tabProfile = true;
   servicePointList = [];
+  suggestionList = [];
   token: any;
   hospname: any;
   isOffline = false;
@@ -182,11 +183,19 @@ export class WuhComponent implements OnInit {
     }
   }
 
-  async getServicePoint() {
+  async getServicePoint(mode: any = 'new') {
     try {
-      const rs: any = await this.kioskService.getServicePoint(this.token);
+      console.log('KIOSKID : ', this.kioskId);
+      const query = `${this.hisHn}`;
+      const rs: any = await this.kioskService.getServicePoint(this.token, mode, this.kioskId, query);
       if (rs.statusCode === 200) {
-        this.servicePointList = rs.results;
+        this.suggestionList = rs.results;
+        console.log(rs.results, this.kioskId);
+        this.servicePointList = rs.results.filter(e => {
+          console.log(e.local_code === `${this.kioskId}`);
+          return e.local_code === `${this.kioskId}`;
+        });
+        console.log(this.servicePointList);
       }
     } catch (error) {
       console.log(error);
@@ -200,6 +209,9 @@ export class WuhComponent implements OnInit {
         const rs: any = await this.kioskService.getPatient(this.token, { 'cid': this.cardCid });
         if (rs.statusCode === 200) {
           this.setDataFromHIS(rs.results);
+          await this.getServicePoint('old');
+        } else {
+          await this.getServicePoint('new');
         }
       }
     } catch (error) {

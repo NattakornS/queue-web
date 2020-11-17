@@ -9,7 +9,7 @@ import { MainComponent } from './main/main.component';
 import { WuhComponent } from "./wuh/wuh.component";
 
 @NgModule({
-  declarations: [MainComponent,WuhComponent],
+  declarations: [MainComponent, WuhComponent],
   imports: [
     CommonModule,
     FormsModule,

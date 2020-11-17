@@ -36,7 +36,7 @@ export class KioskService {
     return this.httpClient.get(_url, _httpOptions).toPromise();
   }
 
-  async getServicePoint(token: any = null) {
+  async getServicePoint(token: any = null, mode: any = null, kioskId: any = '1', query: any = '') {
     const _url = `${this.apiUrl}/service-points/kios`;
     let _httpOptions = {};
 
@@ -45,7 +45,12 @@ export class KioskService {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
-        })
+        }),
+        params: {
+          mode: mode,
+          kioskId: kioskId,
+          query
+        }
       };
     } else {
       _httpOptions = this.httpOptions;

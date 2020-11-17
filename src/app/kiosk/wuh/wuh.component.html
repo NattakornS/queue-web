@@ -75,7 +75,12 @@
     <div id="divDepartment" *ngIf="tabServicePoint">
       <div style="margin: 20px;"></div>
       <h1>แผนกที่ต้องการเข้ารับบริการ</h1>
-      <div class="row">
+      <ng-container
+      *ngIf="servicePointList.length > 0;then service_point; else suggestion;"
+      >
+      </ng-container>
+      <ng-template #service_point>
+      <div class="row justify-content-center">
         <div class="col-3 " style="margin-top:20px"
           [ngClass]="{'col-3': servicePointList.length > 6,'col-4':servicePointList.length <=6}"
           *ngFor="let i of  servicePointList">
@@ -83,7 +88,14 @@
             (click)="register(i)">{{i.service_point_name}}</button>
         </div>
       </div>
-
+    </ng-template>
+    <ng-template #suggestion>
+      <div class="row justify-content-center">
+        <div class="col-3" *ngFor="let s of suggestionList">
+          <h2>ติดต่อ {{s.service_point_name}}</h2>
+        </div>
+      </div>
+    </ng-template>
       <div style="margin: 10px;" *ngIf="servicePointList.length > 3">
         <button class="btn btn-danger" type="button" (click)="cancel()" [disabled]="isPrinting"
           style="height: 6rem; font-size: 1.8em; display: block; margin: auto;">ยกเลิก</button>
