@@ -90,9 +90,12 @@
       </div>
     </ng-template>
     <ng-template #suggestion>
+      <h2>กรุณาติดต่อ</h2>
       <div class="row justify-content-center">
-        <div class="col-3" *ngFor="let s of suggestionList">
-          <h2>ติดต่อ {{s.service_point_name}}</h2>
+        <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let s of suggestionList">
+          <div class="gold bg-danger text-white" style="width: 100%;padding: 2rem;font-size: 2.5rem;">
+            {{s.service_point_name}}
+          </div>
         </div>
       </div>
     </ng-template>
@@ -103,6 +106,15 @@
       </div>
     </div>
 
-
+  </div>
+  <div *ngIf="kioskId === '1000' && !tabServicePoint" class="row justify-content-center">
+    <div  class="col-3" style="margin-top: 20px;">
+      <button class="btn btn-primary" style="width: 100%;padding: 2rem;font-size: 2.5rem"
+        (click)="registerBlank(getServicePointById('1000'),1)">ผู้ป่วยใหม่</button>
+    </div>
+    <div class="col-3" style="margin-top: 20px;">
+      <button class="btn btn-success" style="width: 100%;padding: 2rem;font-size: 2.5rem"
+        (click)="registerBlank(getServicePointById('1000'),2)">ผู้ป่วยเก่า</button>
+    </div>
   </div>
 </div>

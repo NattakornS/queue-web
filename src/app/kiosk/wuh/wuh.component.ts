@@ -1,4 +1,5 @@
 import { KioskService } from '../../shared/kiosk.service';
+import { ServicePointService } from '../../shared/service-point.service';
 import { AlertService } from 'src/app/shared/alert.service';
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -21,6 +22,7 @@ export class WuhComponent implements OnInit {
   tabProfile = true;
   servicePointList = [];
   suggestionList = [];
+  allServiceList = [];
   token: any;
   hospname: any;
   isOffline = false;
@@ -54,6 +56,7 @@ export class WuhComponent implements OnInit {
     private route: ActivatedRoute,
     private alertService: AlertService,
     private kioskService: KioskService,
+    private servicePointService: ServicePointService,
     private zone: NgZone,
     private router: Router) {
     this.route.queryParams
@@ -90,6 +93,7 @@ export class WuhComponent implements OnInit {
     await this.connectWebSocket();
     await this.getInfoHospital();
     await this.getServicePoint();
+    await this.getAllServicePoint();
   }
 
   connectWebSocket() {
@@ -306,12 +310,20 @@ export class WuhComponent implements OnInit {
     }
   }
 
-  async register(servicePoint) {
+  async register(servicePoint, priority) {
     this.isPrinting = true;
-    const priorityId = localStorage.getItem('kiosDefaultPriority') || '1';
+    let priorityId = localStorage.getItem('kiosDefaultPriority') || '1';
+    if (this.his) {
+      priorityId = '2';
+    } else {
+      priorityId = '1';
+    }
+    if (priority) {
+      priorityId = priority;
+    }
     const data = {
       hn: this.his.hn,
-      vn: 'K' + moment().format('x'),
+      vn: moment().format('x'), // 'K' + moment().format('x'),
       clinicCode: servicePoint.local_code,
       priorityId: priorityId,
       dateServ: moment().format('YYYY-MM-DD'),
@@ -334,6 +346,49 @@ export class WuhComponent implements OnInit {
           }
           if (this.isSendAPIPOST) {
             await this.kioskService.sendAPITRIGGER(this.token, 'POST', this.urlSendAPIPOST, this.his.hn, this.cardCid, servicePoint.local_code, servicePoint.service_point_id);
+          }
+        }
+      } else {
+        this.alertService.error('ไม่สามารถลงทะเบียนได้');
+        this.isPrinting = false;
+      }
+    } catch (error) {
+      this.isPrinting = false;
+      console.log(error);
+    }
+  }
+
+  async registerBlank(servicePoint, priority) {
+    this.isPrinting = true;
+    let priorityId = localStorage.getItem('kiosDefaultPriority') || '1';
+    if (priority) {
+      priorityId = priority;
+    }
+    const data = {
+      hn: '99' + moment().format('x'),
+      vn: moment().format('x'), // 'K' + moment().format('x'),
+      clinicCode: servicePoint.local_code,
+      priorityId: priorityId,
+      dateServ: moment().format('YYYY-MM-DD'),
+      timeServ: moment().format('HHmm'),
+      hisQueue: '',
+      firstName: 'ไม่มีชื่อ',
+      lastName: 'ไม่มีนามสกุล',
+      title: '',
+      birthDate: moment().format('YYYY-MM-DD'),
+      sex: '1'
+    };
+    try {
+
+      const rs: any = await this.kioskService.register(this.token, data);
+      if (rs.statusCode === 200) {
+        if (rs.queueId) {
+          await this.print(rs.queueId);
+          if (this.isSendAPIGET) {
+            await this.kioskService.sendAPITRIGGER(this.token, 'GET', this.urlSendAPIGET, '000000', '0000000000000', servicePoint.local_code, servicePoint.service_point_id);
+          }
+          if (this.isSendAPIPOST) {
+            await this.kioskService.sendAPITRIGGER(this.token, 'POST', this.urlSendAPIPOST, '000000', '0000000000000', servicePoint.local_code, servicePoint.service_point_id);
           }
         }
       } else {
@@ -374,5 +429,14 @@ export class WuhComponent implements OnInit {
   home() {
     this.router.navigate(['/admin/setting-kiosk']);
 
+  }
+
+  async getAllServicePoint() {
+   const rs: any = await this.servicePointService.list();
+   this.allServiceList = rs.results;
+  }
+
+  getServicePointById (local_code) {
+    return this.allServiceList.find(x => x.local_code === local_code);
   }
 }
