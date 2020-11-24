@@ -59,9 +59,16 @@ export class WuhComponent implements OnInit {
     private servicePointService: ServicePointService,
     private zone: NgZone,
     private router: Router) {
-    this.route.queryParams
+      this.route.queryParams
       .subscribe(params => {
         this.token = params.token || null;
+        if (this.token) {
+          sessionStorage.setItem('token', params.token);
+        }
+        this.kioskId = +params.servicePointId || null;
+        if (this.kioskId) {
+          sessionStorage.setItem('kioskId', params.servicePointId);
+        }
       });
   }
 
