@@ -1,0 +1,35 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+  <div class="card" fxFlex="85">
+    <div>
+      <div>
+        <div fxLayout="row wrap">
+
+          <!-- Video -->
+          <div class="video-row" fxFlex="100">
+            <video class="video" id="video" #video autoplay playsinline></video>
+          </div>
+          <!-- Canvas -->
+          <div fxFlex="100" style="display:none">
+            <canvas class="video" id="canvas" #canvas></canvas>
+          </div>
+
+          <!-- Button -->
+          <div fxFlex="100" fxLayoutAlign="space-around center">
+            <ng-container *ngIf="!videoStart">
+              <button mat-fab class="mat-elevation-z1" (click)="toggleVideoMedia()" [disabled]="videoStart" color="primary" aria-label="videocam icon-button">
+                <div>videocam</div>
+              </button>
+            </ng-container>
+
+            <ng-container *ngIf="videoStart">
+              <button mat-fab (click)="toggleVideoMedia()" [disabled]="!videoStart" color="warn" aria-label="videocam icon-button">
+                <div>videocam_off</div>
+              </button>
+            </ng-container>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -59,7 +59,7 @@
             <p id="txtNHSOStartDart">{{rightStartDate || '-'}}</p>
             <span>หน่วยบริการหลัก</span>
             <p id="txtNHSOHmain">{{rightHospital || '-'}}</p>
-            <h4 style="text-align: right">**สำนักงานหลักประกันสุขภาพแห่งชาติ</h4>
+            <h4 style="text-align: right">{{rightRegisName}}</h4>
           </div>
         </div>
       </div>
@@ -115,6 +115,23 @@
     <div class="col-3" style="margin-top: 20px;">
       <button class="btn btn-success" style="width: 100%;padding: 2rem;font-size: 2.5rem"
         (click)="registerBlank(getServicePointById('1000'),2)">ผู้ป่วยเก่า</button>
+    </div>
+  </div>
+  <div class="row justify-content-center" style="padding: 1rem;">
+    <div class="col-4">
+      <!-- <input type="text" class="form-control" > -->
+      <div className="input">
+        <label class="text-center">หมายเลขประชาชน | หมายเลขนัด</label>
+        <div style="display:block;">
+          <input matInput #cidInput [matKeyboard]="'Numpad'" [(ngModel)]="cardCid" style="margin: .5rem;" (keyup.enter)="setDataFromInput()">
+          <button class="btn btn-success" style="font-size: 1rem;padding: .5rem;"
+          (click)="openQrModal">
+          <span class="material-icons">
+            qr_code
+            </span>
+        </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

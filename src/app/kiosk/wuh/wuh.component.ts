@@ -1,7 +1,7 @@
 import { KioskService } from '../../shared/kiosk.service';
 import { ServicePointService } from '../../shared/service-point.service';
 import { AlertService } from 'src/app/shared/alert.service';
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as mqttClient from '../../../vendor/mqtt';
@@ -9,6 +9,7 @@ import { MqttClient } from 'mqtt';
 import * as Random from 'random-js';
 import { CountdownComponent } from 'ngx-countdown';
 import * as moment from 'moment';
+
 @Component({
   selector: 'app-wuh',
   templateUrl: './wuh.component.html',
@@ -41,6 +42,7 @@ export class WuhComponent implements OnInit {
   hisFullName: any;
   hisBirthDate: any;
 
+  rightRegisName: any;
   rightName: any;
   rightStartDate: any;
   rightHospital: any;
@@ -49,7 +51,9 @@ export class WuhComponent implements OnInit {
   urlSendAPIGET: any;
   urlSendAPIPOST: any;
 
+  inputTxt: any;
 
+  @ViewChild('cidInput') cidInput: ElementRef;
   @ViewChild(CountdownComponent) counter: CountdownComponent;
 
   constructor(
@@ -86,6 +90,7 @@ export class WuhComponent implements OnInit {
         this.isSendAPIGET = localStorage.getItem('isSendAPIGET') === 'Y' ? true : false;
         this.isSendAPIPOST = localStorage.getItem('isSendAPIPOST') === 'Y' ? true : false;
         this.initialSocket();
+        this.initWuhRight();
       } else {
         this.alertService.error('ไม่พบ TOKEN');
       }
@@ -95,6 +100,20 @@ export class WuhComponent implements OnInit {
       this.alertService.serverError();
     }
   }
+
+  async initWuhRight() {
+    try {
+      const rs: any = await this.kioskService.getWuhToken();
+      console.log(rs);
+
+      localStorage.setItem('wuhToken', rs.token || '');
+      localStorage.setItem('nhsoCid', this.kioskService.nhsoCid() || '');
+    } catch (error) {
+      console.log(error);
+      this.alertService.serverError();
+    }
+  }
+
   async initialSocket() {
     // connect mqtt
     await this.connectWebSocket();
@@ -243,14 +262,25 @@ export class WuhComponent implements OnInit {
     this.tabProfile = true;
   }
 
+  setDataFromInput() {
+    this.cidInput.nativeElement.blur();
+    console.log(this.cidInput.nativeElement);
+
+    this.setDataFromCard({
+      cid: this.cardCid,
+      fullname: '-',
+      birthDate: '-'
+    });
+  }
+
   async setDataFromCard(data) {
     this.cardCid = data.cid;
     this.cardFullName = data.fullname;
     this.cardBirthDate = data.birthDate;
     if (this.cardCid) {
       await this.getPatient();
-      await this.getNhso(this.cardCid);
-
+      // await this.getNhso(this.cardCid);
+      await this.getWuhRight(this.cardCid);
     } else {
       this.alertService.error('บัตรมีปัญหา กรุณาเสียบใหม่อีกครั้ง', null, 1000);
     }
@@ -427,6 +457,57 @@ export class WuhComponent implements OnInit {
       this.rightName = nhso.maininscl ? `${nhso.maininscl_name} (${nhso.maininscl})` : '-';
       this.rightHospital = nhso.hmain ? `${nhso.hmain_name} (${nhso.hmain})` : '-';
       this.rightStartDate = nhso.startdate ? `${moment(nhso.startdate, 'YYYYMMDD').format('DD MMM ')} ${moment(nhso.startdate, 'YYYYMMDD').get('year')}` : '-';
+    } catch (error) {
+      console.log(error);
+      // this.alertService.error(error.message);
+    }
+  }
+
+  async getWuhRight(cid) {
+    const wuhToken = localStorage.getItem('wuhToken');
+    // const nhsoCid = localStorage.getItem('nhsoCid');
+    // const data = `<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tok=\"http://tokenws.ucws.nhso.go.th/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <tok:searchCurrentByPID>\n         <!--Optional:-->\n         <user_person_id>${nhsoCid}</user_person_id>\n         <!--Optional:-->\n         <smctoken>${nhsoToken}</smctoken>\n         <!--Optional:-->\n         <person_id>${cid}</person_id>\n      </tok:searchCurrentByPID>\n   </soapenv:Body>\n</soapenv:Envelope>`;
+    try {
+      const nhso: any = {};
+      const rsNhso: any = await this.kioskService.getWuhNhsoRight(wuhToken, cid);
+      const rsPerson: any = await this.kioskService.getWuhPersonRight(wuhToken, cid);
+      const rsStd: any = await this.kioskService.getWuhStdRight(wuhToken, cid);
+      console.log('result rsNhso : ', rsNhso);
+      console.log('result rsPerson : ', rsPerson);
+      console.log('result rsStd : ', rsStd);
+      if (rsNhso.maininscl_main) {
+        this.rightRegisName = '**สำนักงานหลักประกันสุขภาพแห่งชาติ'
+        this.rightName = rsNhso.maininscl ? `${rsNhso.maininscl_name} (${rsNhso.maininscl})` : '-';
+        this.rightHospital = rsNhso.hmain ? `${rsNhso.hmain_name} (${rsNhso.hmain})` : '-';
+        this.rightStartDate = rsNhso.startdate ? `${moment(rsNhso.startdate, 'YYYYMMDD').format('DD MMM ')} ${moment(rsNhso.startdate, 'YYYYMMDD').get('year')}` : '-';
+      } else if (rsPerson.length > 0) {
+        this.rightRegisName = '** บุคคลากรมหาวิทยาลัยวลัยลักษณ์';
+        this.rightName = '-';
+        this.rightHospital = '-';
+        this.rightStartDate = '';
+      } else if (rsStd.length > 0) {
+        this.rightRegisName = '** นักศึกษามหาวิทยาลัยวลัยลักษณ์';
+        this.rightName = '-';
+        this.rightHospital = '-';
+        this.rightStartDate = '';
+      } else {
+        this.rightRegisName = '';
+        this.rightName = '-';
+        this.rightHospital = '-';
+        this.rightStartDate = '';
+      }
+      // rs.results.forEach(v => {
+      //   if (v.name === 'hmain') { nhso.hmain = v.elements[0].text; }
+      //   if (v.name === 'hmain_name') { nhso.hmain_name = v.elements[0].text; }
+      //   if (v.name === 'maininscl') { nhso.maininscl = v.elements[0].text; }
+      //   if (v.name === 'maininscl_main') { nhso.maininscl_main = v.elements[0].text; }
+      //   if (v.name === 'maininscl_name') { nhso.maininscl_name = v.elements[0].text; }
+      //   if (v.name === 'startdate') { nhso.startdate = v.elements[0].text; }
+      //   if (v.name === 'startdate_sss') { nhso.startdate_sss = v.elements[0].text; }
+      // });
+      // this.rightName = nhso.maininscl ? `${nhso.maininscl_name} (${nhso.maininscl})` : '-';
+      // this.rightHospital = nhso.hmain ? `${nhso.hmain_name} (${nhso.hmain})` : '-';
+      // this.rightStartDate = nhso.startdate ? `${moment(nhso.startdate, 'YYYYMMDD').format('DD MMM ')} ${moment(nhso.startdate, 'YYYYMMDD').get('year')}` : '-';
     } catch (error) {
       console.log(error);
       // this.alertService.error(error.message);

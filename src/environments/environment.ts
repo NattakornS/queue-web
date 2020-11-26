@@ -6,6 +6,10 @@ export const environment = {
   production: false,
   // apiUrl: 'http://172.31.248.91:8000/api/v1',
   apiUrl: 'http://localhost/api/v1',
+  rightApiUrl: 'https://172.31.248.73:5001/api',
+  rightUser: 'his',
+  rightPassword: 'His@2020',
+  rightAdmin: '3800800484298'
 };
 
 /*

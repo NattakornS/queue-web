@@ -14,6 +14,7 @@ import { LoginModule } from './login/login.module';
 import { SharedModule } from './shared/shared.module';
 import { environment } from '../environments/environment';
 import { CustomerModule } from './customer/customer.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export function tokenGetter() {
   return sessionStorage.getItem('token');
 }
@@ -40,11 +41,16 @@ export const whitelistedDomains = [new RegExp('[\s\S]*')] as RegExp[];
     AdminModule,
     LoginModule,
     KioskModule,
-    CustomerModule
+    CustomerModule,
+    BrowserAnimationsModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: 'API_URL', useValue: environment.apiUrl },
+    { provide: 'RIGHT_URL', useValue: environment.rightApiUrl },
+    { provide: 'RIGHT_USER', useValue: environment.rightUser },
+    { provide: 'RIGHT_PASSWORD', useValue: environment.rightPassword },
+    { provide: 'RIGHT_ADMIN', useValue: environment.rightAdmin }
   ],
   bootstrap: [AppComponent]
 })

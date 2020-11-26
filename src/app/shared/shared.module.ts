@@ -28,6 +28,7 @@ import { ModalSelectRoomComponent } from './modal-select-room/modal-select-room.
 import { ModalSettingSoundComponent } from './modal-setting-sound/modal-setting-sound.component';
 import { SoundService } from './sound.service';
 import { KioskService } from './kiosk.service';
+import { ModalQrComponent } from './modal-qr/modal-qr.component';
 
 @NgModule({
   imports: [
@@ -51,7 +52,8 @@ import { KioskService } from './kiosk.service';
     ModalSelectDepartmentComponent,
     AlertWarningPrinterComponent,
     ModalSelectRoomComponent,
-    ModalSettingSoundComponent
+    ModalSettingSoundComponent,
+    ModalQrComponent
   ],
   exports: [
     ModalAddServicePointComponent,
