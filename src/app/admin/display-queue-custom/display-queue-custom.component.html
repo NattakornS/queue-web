@@ -1,0 +1,380 @@
+<div class="container-scroller">
+  <!-- partial:../../partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo" href="javascript://">
+        <img style="width: 40px; height: 40px;" src="./assets/images/iconQ4U100.png" alt=""></a>
+      <span class="font-weight-bold" style="font-size: 1.5rem;">
+        ระบบคิวออนไลน์
+      </span>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-stretch">
+
+      <ul class="navbar-nav navbar-nav-right">
+        <li class="nav-item d-none d-lg-block full-screen-link">
+          <a class="nav-link" href="javascript://" routerLink="/admin">
+            <i class="mdi mdi-home text-success"></i>
+          </a>
+        </li>
+        <li class="nav-item d-none d-lg-block full-screen-link">
+          <a class="nav-link" appToggleFullscreen href="javascript://">
+            <i class="mdi mdi-fullscreen text-primary"></i>
+          </a>
+        </li>
+        <li class="nav-item d-none d-lg-block full-screen-link">
+          <a class="nav-link" (click)="logout()" href="javascript://">
+            <i class="mdi mdi-power text-danger"></i>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <div class="card card-inverse-danger" *ngIf="isOffline">
+          <div class="card-body">
+            <p class="mb-4">
+              เกิดข้อผิดพลาดในการเชื่อมต่อกับ Notify Server.
+            </p>
+            <button class="btn btn-danger" (click)="connectWebSocket()">เชื่อมต่อใหม่ (<strong>
+                <countdown [config]="{leftTime: 15, template: '$!s!'}" (finished)="onFinished()"
+                  (notify)="onNotify($event)"></countdown>
+              </strong>)</button>
+          </div>
+        </div>
+        <div class="container col-md-12">
+          <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <h2 class="font-weight-bold "
+                style="text-align:center; padding: 5px; border-radius: 0px; color:rgb(245, 236, 236); background-color:#ff9800;"
+                (click)="selectServicePoint()">{{servicePointName || 'กรุณาเลือกจุดบริการ'}}</h2>
+            </div>
+            <div class="col-md-4">
+            </div>
+          </div>
+
+          <div class=row>
+            <div class="col-md-6">
+              <div style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; background-color:#7344b0;
+              border-radius:25px;">
+                <div class="col-md-12" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 20px; background-color:#9095e0 ;
+              border-radius:25px;">
+
+                  <div class="row" style="text-align:center; padding: 5px; border-radius: 20px; color:red; "
+                    *ngFor="let room of rooms">
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">{{room.room_number}} - {{room.room_name}}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+
+                        <div class="card-body invalid-blink" style="text-align:center; padding: 5px; border-radius: 0px; color:white;" *ngIf="getQueueFromRoom(room.room_id) !== '-'">     
+                          <p class="card-text font-weight-bold h2">{{getQueueFromRoom(room.room_id)}}</p>
+                        </div>
+
+                        <div class="card-body" style="text-align:center; padding: 5px; border-radius: 0px; color:red;" *ngIf="getQueueFromRoom(room.room_id) === '-'">     
+                          <p class="card-text font-weight-bold h2">{{getQueueFromRoom(room.room_id)}}</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="row" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">ช่องบริการที่ 2</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">N-004</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">ช่องบริการที่ 3</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">N-005</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">ช่องบริการที่ 4</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="card md-6 " style="border-radius: 0px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">N-007</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
+
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-6">
+              <div style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; background-color:#7344b0;
+              border-radius:25px;">
+                <div class="col-md-12" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 20px; background-color:#9095e0;
+              border-radius:25px;">
+                  <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">ติดต่อช่องบริการที่ว่าง
+                  </h2>
+                  <div class="row">
+
+                    <div class="col-md-12 " *ngIf="waitingItems.length === 0">
+                      <div class="card mb-4 shadow-sm " style="border-radius: 20px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">-</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4 " *ngFor="let item of waitingItems">
+                      <div class="card mb-4 shadow-sm " style="border-radius: 20px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">{{item.queue_number}}</p>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 20px; background-color:#9095e0;
+              border-radius:25px;">
+                  <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">จำนวนคิวที่รอ</h2>
+                  <div class="row">
+
+                    <div class="col-md-6 ">
+                      <div class="card mb-6 shadow-sm " style="border-radius: 20px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <!-- <p class="card-text font-weight-bold h2">ผู้ป่วยใหม่</p> -->
+                          <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">ผู้ป่วยใหม่</h2>
+                        </div>
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">{{ totalNew }}</p>
+                        </div>
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <!-- <p class="card-text font-weight-bold h2">คิว</p> -->
+                          <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">คิว</h2>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 ">
+                      <div class="card mb-6 shadow-sm " style="border-radius: 20px;">
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <!-- <p class="card-text font-weight-bold h2">ผู้ป่วยเก่า</p> -->
+                          <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">ผู้ป่วยเก่า</h2>
+
+                        </div>
+
+                      
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <p class="card-text font-weight-bold h2">{{ totalOld }}</p>
+                        </div>
+                        <div class="card-body"
+                          style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                          <!-- <p class="card-text font-weight-bold h2">คิว</p> -->
+                          <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">คิว</h2>
+
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr style="color: white;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="float-left">
+              <i style="cursor: pointer;" *ngIf="isSound" (click)="toggleSound()"
+                class="h2 text-danger float-right mdi mdi-bell-ring"></i>
+              <i style="cursor: pointer;" *ngIf="!isSound" (click)="toggleSound()"
+                class="h2 text-muted float-right mdi mdi-bell-off"></i>
+            </div>
+            <div class="float-right">
+              <span class="h2 font-weight-bold text-primary" style="cursor: pointer" (click)="selectServicePoint()">
+                {{servicePointName || 'กรุณาเลือกจุดบริการ'}}</span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="card-deck" style="margin-top: 0px;">
+          <div class="col-md-6" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; background-color:#7344b0;
+          border-radius:25px; ">
+            <div class="col-md-12" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 20px; background-color:#0b18d8;
+            border-radius:25px;">
+              <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">ช่องบริการที่ว่าง</h2>
+              <div class="row">
+
+                <div class="col-md-4 ">
+                  <div class="card mb-4 shadow-sm " style="border-radius: 0px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ช่องบริการที่ 1</p>
+                    </div>
+                
+                    
+                  </div>
+                </div>
+
+               
+
+              </div>
+            </div>
+
+
+
+          </div>
+
+
+          <div class="card col-md-6" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; background-color:#7344b0;
+          border-radius:25px;">
+            <div class="col-md-12" style="padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 20px; background-color:#0b18d8;
+            border-radius:25px;">
+              <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">ช่องบริการที่ว่าง</h2>
+              <div class="row">
+
+                <div class="col-md-4 ">
+                  <div class="card mb-4 shadow-sm " style="border-radius: 20px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ช่องบริการที่ 1</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 ">
+                  <div class="card mb-4 shadow-sm " style="border-radius: 20px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ช่องบริการที่ 2</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 ">
+                  <div class="card mb-4 shadow-sm " style="border-radius: 20px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ช่องบริการที่ 3</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 ">
+                  <div class="card mb-4 shadow-sm " style="border-radius: 20px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ช่องบริการที่ 4</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-12" style="margin-top: 10px; padding-top: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 20px; background-color:#0b18d8;
+              border-radius:25px;">
+              <h2 class="font-weight-bold itemBox" style="text-align:center; color:white">จำนวนคิวที่รอ</h2>
+              <div class="row">
+
+                <div class="col-md-6 ">
+                  <div class="card mb-6 shadow-sm " style="border-radius: 20px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ผู้ป่วยใหม่</p>
+                    </div>
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">10</p>
+                    </div>
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">คิว</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 ">
+                  <div class="card mb-6 shadow-sm " style="border-radius: 20px;">
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">ผู้ป่วยเก่า</p>
+                    </div>
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">40</p>
+                    </div>
+                    <div class="card-body" style="text-align:center; padding: 5px; border-radius: 20px; color:red; ">
+                      <p class="card-text font-weight-bold h2">คิว</p>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+
+
+          </div>
+
+
+        </div> -->
+
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+
+  <app-modal-select-servicepoints (onSelected)="onSelectedPoint($event)" #mdlServicePoint>
+  </app-modal-select-servicepoints>

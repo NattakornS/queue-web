@@ -8,6 +8,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DisplayQueueComponent } from './display-queue/display-queue.component';
+import { DisplayQueueCustomComponent } from './display-queue-custom/display-queue-custom.component';
 import { QueueCallerComponent } from './queue-caller/queue-caller.component';
 import { ServicePointComponent } from './settings/service-point/service-point.component';
 import { SharedModule } from '../shared/shared.module';
@@ -32,6 +33,7 @@ import { SettingKioskComponent } from './setting-kiosk/setting-kiosk.component';
     LayoutComponent,
     DashboardComponent,
     DisplayQueueComponent,
+    DisplayQueueCustomComponent,
     QueueCallerComponent,
     ServicePointComponent,
     UserComponent,

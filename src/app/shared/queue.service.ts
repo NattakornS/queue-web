@@ -66,6 +66,13 @@ export class QueueService {
     return this.httpClient.get(_url, this.httpOptions).toPromise();
   }
 
+  //for count new and old pantient 
+  //Author Bate
+  async getWaitingnolimit(servicePointId: any, offset: number = 0, sort = '', query = '') {
+    const _url = `${this.apiUrl}/queue/waiting/${servicePointId}?offset=${offset}&sort=${sort}&query=${query}`;
+    return this.httpClient.get(_url, this.httpOptions).toPromise();
+  }
+
   async getWaitingGroup(servicePointId: any, priorityId: any, limit: number = 20, offset: number = 0) {
     const _url = `${this.apiUrl}/queue/waiting-group/${servicePointId}?priorityId=${priorityId}&limit=${limit}&offset=${offset}`;
     return this.httpClient.get(_url, this.httpOptions).toPromise();
