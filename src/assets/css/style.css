@@ -115,6 +115,16 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
+.itemBox{
+  /* margin: 3px; */
+  overflow: hidden;
+  background:#000;
+  /* width: 227px;
+  height: 227px;  */
+  background-color:#ff9800;
+  border-radius:25px;
+}
+
 @-moz-keyframes flash {
   0% {
     opacity: 1;
