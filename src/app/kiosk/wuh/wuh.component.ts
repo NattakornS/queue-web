@@ -527,4 +527,8 @@ export class WuhComponent implements OnInit {
   getServicePointById (local_code) {
     return this.allServiceList.find(x => x.local_code === local_code);
   }
+  openQrModal () {
+    console.log('OPEN');
+
+  }
 }
