@@ -5010,13 +5010,6 @@ next-tick@~1.0.0:
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
 
-ng-numeric-keyboard@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/ng-numeric-keyboard/-/ng-numeric-keyboard-1.0.1.tgz#8f8071526c0fb52766a296f047d132b7612daa26"
-  integrity sha512-mmGQ4Yei6rlGMChumDOWZPOrDtw+1CiSnV3E/712hw6FJFeejnzkJzGfcuzqBRazXv0QXQZHw9TaKsVrDeTzyw==
-  dependencies:
-    tslib "^1.9.0"
-
 ngx-clipboard@^11.1.9:
   version "11.1.9"
   resolved "https://registry.yarnpkg.com/ngx-clipboard/-/ngx-clipboard-11.1.9.tgz#a391853dc49e436de407260863a2c814d73a9332"
