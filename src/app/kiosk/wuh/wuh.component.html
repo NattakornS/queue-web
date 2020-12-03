@@ -118,20 +118,28 @@
     </div>
   </div>
   <div class="row justify-content-center" style="padding: 1rem;">
-    <div class="col-4">
+    <div class="col-auto">
       <!-- <input type="text" class="form-control" > -->
       <div className="input">
         <label class="text-center">หมายเลขประชาชน | หมายเลขนัด</label>
         <div style="display:block;">
-          <input matInput #cidInput [matKeyboard]="'Numpad'" [(ngModel)]="cardCid" style="margin: .5rem;" (keyup.enter)="setDataFromInput()">
-          <button class="btn btn-success" style="font-size: 1rem;padding: .5rem;"
-          (click)="openQrModal">
-          <span class="material-icons">
-            qr_code
+          <!-- <button class="btn btn-success" style="font-size: 1rem;padding: .5rem;"
+          (click)="openQrModal()">
+            <span class="material-icons">
+              qr_code
             </span>
-        </button>
+          </button> -->
+          <app-modal-qr #mdlQr (finished)="qrCodeInput($event)"></app-modal-qr>
+          <input matInput #cidInput [matKeyboard]="'Numpad'" [(ngModel)]="cardCid" style="margin: .5rem;" (enterClick)="setDataFromInput(cidInput.value)" (keyup.enter)="setDataFromInput(cidInput.value)">
+          <button class="btn btn-success" style="font-size: 1rem;padding: .5rem;margin-right: .5rem;"
+          (click)="clearData()">
+            <span class="material-icons">
+              clear
+            </span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+<app-modal-qr #mdlQr></app-modal-qr>
