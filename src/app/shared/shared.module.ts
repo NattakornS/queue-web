@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalAddServicePointComponent } from './modal-add-service-point/modal-add-service-point.component';
 import { ServicePointService } from './service-point.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { ModalAddUserComponent } from './modal-add-user/modal-add-user.component';
 import { AuthGuardService } from './auth-guard.service';
@@ -28,12 +28,13 @@ import { ModalSelectRoomComponent } from './modal-select-room/modal-select-room.
 import { ModalSettingSoundComponent } from './modal-setting-sound/modal-setting-sound.component';
 import { SoundService } from './sound.service';
 import { KioskService } from './kiosk.service';
+import { ModalQrComponent, QrComponent } from './modal-qr/modal-qr.component';
 
 @NgModule({
   imports: [
     CommonModule,
     NgbModule,
-    FormsModule
+    FormsModule,
   ],
   declarations: [
     ModalAddServicePointComponent,
@@ -51,8 +52,11 @@ import { KioskService } from './kiosk.service';
     ModalSelectDepartmentComponent,
     AlertWarningPrinterComponent,
     ModalSelectRoomComponent,
-    ModalSettingSoundComponent
+    ModalSettingSoundComponent,
+    ModalQrComponent,
+    QrComponent
   ],
+  entryComponents: [QrComponent],
   exports: [
     ModalAddServicePointComponent,
     ModalAddUserComponent,
@@ -69,7 +73,8 @@ import { KioskService } from './kiosk.service';
     ModalSelectDepartmentComponent,
     AlertWarningPrinterComponent,
     ModalSelectRoomComponent,
-    ModalSettingSoundComponent
+    ModalSettingSoundComponent,
+    ModalQrComponent
   ],
   providers: [
     ServicePointService,

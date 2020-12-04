@@ -1,0 +1,144 @@
+<div class="card card-inverse-danger" *ngIf="isOffline">
+  <div class="card-body">
+    <p class="mb-4">
+      เกิดข้อผิดพลาดในการเชื่อมต่อกับ Notify Server.
+    </p>
+    <button class="btn btn-danger" (click)="connectWebSocket()">เชื่อมต่อใหม่ (<strong>
+        <countdown [config]="{leftTime: 15, template: '$!s!'}" (finished)="onFinished()" (notify)="onNotify($event)">
+        </countdown>
+      </strong>)</button>
+  </div>
+</div>
+
+<div class="body">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class='silver'>
+          <div style="font-size: 2.5rem; font-weight: bold;" (dblclick)="home()">{{hospname}}</div>
+          <h1>ระบบออกคิวอัตโนมัติ</h1>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="tabProfile">
+      <div style="margin: 20px;"></div>
+      <div class="row">
+        <div class="col-4">
+          <div class='silver'>
+            <h1>ข้อมูลจากบัตรประชาชน</h1>
+            <span>เลขบัตรประชาชน</span>
+            <p id="txtCid">{{cardCid || '-'}}</p>
+            <span>ชื่อ - สกุล</span>
+            <p id="txtFullname">{{cardFullName || '-'}}</p>
+            <span>วันเกิด</span>
+            <p id="txtBirthdate">{{cardBirthDate || '-'}}</p>
+            <h4 style="text-align: right">**ข้อมูลจากเครื่องอ่านบัตรประชาชน</h4>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class='gold'>
+            <h1>ข้อมูลโรงพยาบาล</h1>
+            <span>HN</span>
+            <p id="txtHISHn">{{hisHn || '-'}}</p>
+            <span>ชื่อ - สกุล</span>
+            <p id="txtHISFullname">{{hisFullName || '-'}}</p>
+            <span>วันเกิด</span>
+            <p id="txtHISBirthdate">{{hisBirthDate || '-'}}</p>
+            <h4 style="text-align: right">**จากฐานข้อมูลในโรงพยาบาล</h4>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class='silver'>
+            <h1>ข้อมูลสิทธิการรักษา</h1>
+
+            <span>สิทธิการรักษา</span>
+            <p id="txtNHSORight">{{rightName || '-'}}</p>
+            <span>วันที่เริ่มใช้สิทธิ์</span>
+            <p id="txtNHSOStartDart">{{rightStartDate || '-'}}</p>
+            <span>หน่วยบริการหลัก</span>
+            <p id="txtNHSOHmain">{{rightHospital || '-'}}</p>
+            <h4 style="text-align: right">{{rightRegisName}}</h4>
+          </div>
+        </div>
+      </div>
+      <div style="margin: 20px;"></div>
+
+      <button *ngIf="btnSelectServicePoint" type="button" class="btn btn-primary"
+        style="height: 6rem; font-size: 1.8em; display: block; margin: auto;"
+        (click)="onSelectServicePointList()">เลือกแผนกเข้ารับบริการ</button>
+
+    </div>
+    <div class="row justify-content-center" style="padding: 1rem;">
+      <div class="col-auto">
+        <!-- <input type="text" class="form-control" > -->
+        <div className="input">
+          <div style="display:block;">
+            <!-- <button class="btn btn-success" style="font-size: 1rem;padding: .5rem;"
+            (click)="openQrModal()">
+              <span class="material-icons">
+                qr_code
+              </span>
+            </button> -->
+            <app-modal-qr #mdlQr (finished)="qrCodeInput($event)"></app-modal-qr>
+            <input matInput #cidInput [matKeyboard]="'Numpad'" [(ngModel)]="cardCid" style="padding:1rem;margin: .5rem;"
+            placeholder="หมายเลขประชาชน | หมายเลขนัด"
+            (enterClick)="setDataFromInput(cidInput.value)" (keyup.enter)="setDataFromInput(cidInput.value)">
+            <button class="btn btn-danger" style="font-size: 1rem;padding: .5rem;margin-right: .5rem;"
+            (click)="clearData()">
+              <span class="material-icons">
+                clear
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="divDepartment" *ngIf="tabServicePoint">
+      <div style="margin: 20px;"></div>
+      <h1>แผนกที่ต้องการเข้ารับบริการ</h1>
+      <ng-container
+      *ngIf="servicePointList.length > 0;then service_point; else suggestion;"
+      >
+      </ng-container>
+      <ng-template #service_point>
+      <div class="row justify-content-center">
+        <div class="col-3 " style="margin-top:20px"
+          [ngClass]="{'col-3': servicePointList.length > 6,'col-4':servicePointList.length <=6}"
+          *ngFor="let i of  servicePointList">
+          <button class="btn btn-primary" style="width: 100%;padding: 2rem;font-size: 2.5rem"
+            (click)="register(i)">{{i.service_point_name}}</button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #suggestion>
+      <h2>กรุณาติดต่อ</h2>
+      <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let s of suggestionList">
+          <div class="gold bg-danger text-white" style="width: 100%;padding: 2rem;font-size: 2.5rem;">
+            {{s.service_point_name}}
+          </div>
+        </div>
+      </div>
+    </ng-template>
+      <div style="margin: 10px;" *ngIf="servicePointList.length > 3">
+        <button class="btn btn-danger" type="button" (click)="cancel()" [disabled]="isPrinting"
+          style="height: 6rem; font-size: 1.8em; display: block; margin: auto;">ยกเลิก</button>
+
+      </div>
+    </div>
+
+  </div>
+  <div *ngIf="kioskId === '1000' && !tabServicePoint" class="row justify-content-center">
+    <div  class="col-3" style="margin-top: 20px;">
+      <button class="btn btn-primary" style="width: 100%;padding: 2rem;font-size: 2.5rem"
+        (click)="registerBlank(getServicePointById('1000'),1)">ผู้ป่วยใหม่</button>
+    </div>
+    <div class="col-3" style="margin-top: 20px;">
+      <button class="btn btn-success" style="width: 100%;padding: 2rem;font-size: 2.5rem"
+        (click)="registerBlank(getServicePointById('1000'),2)">ผู้ป่วยเก่า</button>
+    </div>
+  </div>
+</div>

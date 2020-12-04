@@ -21,7 +21,7 @@ const routes: Routes = [
     path: 'admin', component: LayoutComponent,
     canActivate: [AuthGuardService],
     children: [
-      // { path: 'dashboard', component: DashboardComponent },
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'service-point', component: ServicePointComponent },
       { path: 'departments', component: DepartmentsComponent },
       { path: 'priority', component: PriorityComponent },
