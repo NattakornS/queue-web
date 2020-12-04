@@ -40,7 +40,7 @@ export class ModalQrComponent {
   <div fxLayout="row wrap" fxLayoutAlign="center center">
   <div class="modal-header">
     <h3 class="modal-title" id="modal-basic-title">สแกน</h3>
-    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="dismiss('')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
