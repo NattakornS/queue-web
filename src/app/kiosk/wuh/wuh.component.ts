@@ -9,6 +9,8 @@ import { MqttClient } from 'mqtt';
 import * as Random from 'random-js';
 import { CountdownComponent } from 'ngx-countdown';
 import * as moment from 'moment';
+import { ModalQrComponent } from '../../shared/modal-qr/modal-qr.component';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-wuh',
@@ -34,7 +36,7 @@ export class WuhComponent implements OnInit {
   kioskId: any;
   isPrinting = false;
 
-  cardCid: any;
+  cardCid: any = '';
   cardFullName: any;
   cardBirthDate: any;
   his: any;
@@ -53,10 +55,14 @@ export class WuhComponent implements OnInit {
 
   inputTxt: any;
 
+  @ViewChild('mdlQr') private mdlQr: ModalQrComponent;
+  modalReference: NgbModalRef;
+
   @ViewChild('cidInput') cidInput: ElementRef;
   @ViewChild(CountdownComponent) counter: CountdownComponent;
 
   constructor(
+    private modalService: NgbModal,
     private route: ActivatedRoute,
     private alertService: AlertService,
     private kioskService: KioskService,
@@ -262,7 +268,7 @@ export class WuhComponent implements OnInit {
     this.tabProfile = true;
   }
 
-  setDataFromInput() {
+  setDataFromInput(event) {
     this.cidInput.nativeElement.blur();
     console.log(this.cidInput.nativeElement);
 
@@ -528,7 +534,24 @@ export class WuhComponent implements OnInit {
     return this.allServiceList.find(x => x.local_code === local_code);
   }
   openQrModal () {
-    console.log('OPEN');
+      console.log('OPEN');
 
-  }
+      this.modalReference = this.modalService.open(ModalQrComponent, {
+        ariaLabelledBy: 'modal-basic-title',
+        keyboard: false,
+        backdrop: 'static',
+        // size: 'lg',
+        // centered: true
+      });
+
+      this.modalReference.result.then((result) => {
+        console.log(result);
+      });
+
+    }
+    qrCodeInput(code) {
+      this.cardCid = code;
+      this.setDataFromInput(null);
+
+    }
 }
