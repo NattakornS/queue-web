@@ -68,6 +68,7 @@ export class DisplayQueueCustomComponent implements OnInit, OnDestroy {
 
   isSound = true;
   isPlayingSound = false;
+  pendingItems: any = [];
 
   playlists: any = [];
   notifyUrl: string;
@@ -464,12 +465,27 @@ export class DisplayQueueCustomComponent implements OnInit, OnDestroy {
     this.getCurrentQueue();
     this.getWorking();
     this.getWorkingHistory();
-
+    this.getPending();
     this.getRomService();
     this.getWaiting();
     this.totalOld = 0;
     this.totalNew = 0;
 
+  }
+
+  async getPending() {
+    try {
+      const rs: any = await this.queueService.getPending(this.servicePointId, this.query);
+      if (rs.statusCode === 200) {
+        this.pendingItems = rs.results;
+      } else {
+        console.log(rs.message);
+        this.alertService.error('เกิดข้อผิดพลาด');
+      }
+    } catch (error) {
+      console.log(error);
+      this.alertService.error();
+    }
   }
 
   async getRomService() {
