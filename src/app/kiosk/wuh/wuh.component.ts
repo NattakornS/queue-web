@@ -491,9 +491,9 @@ export class WuhComponent implements OnInit {
       console.log('result rsPerson : ', rsPerson);
       if (rsPerson.length > 0) {
         this.rightRegisName = '** บุคคลากรมหาวิทยาลัยวลัยลักษณ์';
-        this.rightName = rsPerson[0].FNAMETHAI + rsPerson[0].LNAMETHAI;
-        this.rightHospital = rsPerson[0].WRKTNAME;
-        this.rightStartDate = rsPerson[0].STARTDATE;
+        this.rightName = rsPerson[0].WRKTNAME;
+        this.rightHospital = rsPerson[0].DIVTHNAME;
+        this.rightStartDate = moment(rsPerson[0].STARTDATE).format('YYYY-MM-DD');
       }
       const rsStd: any = await this.kioskService.getWuhStdRight(wuhToken, cid);
       console.log('result rsStd : ', rsStd);
