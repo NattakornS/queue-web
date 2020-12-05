@@ -54,7 +54,7 @@ export class KioskService {
       _httpOptions = this.httpOptions;
     }
 
-    return this.httpClient.get(_url, _httpOptions).toPromise();
+    return this.httpClient.post(_url, _httpOptions).toPromise();
   }
 
   async getWuhPersonRight(token, cid) {
