@@ -54,7 +54,7 @@ export class KioskService {
       _httpOptions = this.httpOptions;
     }
 
-    return this.httpClient.get(_url, _httpOptions).toPromise();
+    return this.httpClient.post(_url, null, _httpOptions).toPromise();
   }
 
   async getWuhPersonRight(token, cid) {
@@ -72,11 +72,11 @@ export class KioskService {
       _httpOptions = this.httpOptions;
     }
 
-    return this.httpClient.get(_url, _httpOptions).toPromise();
+    return this.httpClient.post(_url, null, _httpOptions).toPromise();
   }
 
   async getWuhStdRight(token, cid) {
-    const _url = `${this.rightUrl}/Nhso/Ces/GetStudent?citizenId=${cid}`
+    const _url = `${this.rightUrl}/Nhso/Ces/GetStudent?citizenId=${cid}`;
     let _httpOptions = {};
 
     if (token) {
@@ -90,7 +90,7 @@ export class KioskService {
       _httpOptions = this.httpOptions;
     }
 
-    return this.httpClient.get(_url, _httpOptions).toPromise();
+    return this.httpClient.post(_url, null, _httpOptions).toPromise();
   }
 
   async getInfo(token: any = null) {

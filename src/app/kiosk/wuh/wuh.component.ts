@@ -77,7 +77,15 @@ export class WuhComponent implements OnInit {
         }
         this.kioskId = +params.servicePointId || null;
         if (this.kioskId) {
-          sessionStorage.setItem('kioskId', params.servicePointId);
+          localStorage.setItem('kioskId', params.servicePointId);
+        }
+        const clientPrinterId = params.clientPrinterId || null;
+        if (clientPrinterId) {
+          localStorage.setItem('clientPrinterId', clientPrinterId);
+        }
+        const printSmallQueue = params.printSmallQueue || null;
+        if (printSmallQueue) {
+          localStorage.setItem('printSmallQueue', printSmallQueue);
         }
       });
   }
@@ -270,7 +278,7 @@ export class WuhComponent implements OnInit {
 
   setDataFromInput(event) {
     this.cidInput.nativeElement.blur();
-    console.log(this.cidInput.nativeElement);
+    // console.log(this.cidInput.nativeElement);
 
     this.setDataFromCard({
       cid: this.cardCid,
@@ -475,29 +483,30 @@ export class WuhComponent implements OnInit {
     // const data = `<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tok=\"http://tokenws.ucws.nhso.go.th/\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <tok:searchCurrentByPID>\n         <!--Optional:-->\n         <user_person_id>${nhsoCid}</user_person_id>\n         <!--Optional:-->\n         <smctoken>${nhsoToken}</smctoken>\n         <!--Optional:-->\n         <person_id>${cid}</person_id>\n      </tok:searchCurrentByPID>\n   </soapenv:Body>\n</soapenv:Envelope>`;
     try {
       const nhso: any = {};
+      this.rightRegisName = '';
+      this.rightName = '-';
+      this.rightHospital = '-';
+      this.rightStartDate = '';
       const rsNhso: any = await this.kioskService.getWuhNhsoRight(wuhToken, cid);
-      const rsPerson: any = await this.kioskService.getWuhPersonRight(wuhToken, cid);
-      const rsStd: any = await this.kioskService.getWuhStdRight(wuhToken, cid);
       console.log('result rsNhso : ', rsNhso);
-      console.log('result rsPerson : ', rsPerson);
-      console.log('result rsStd : ', rsStd);
       if (rsNhso.maininscl_main) {
         this.rightRegisName = '**สำนักงานหลักประกันสุขภาพแห่งชาติ'
         this.rightName = rsNhso.maininscl ? `${rsNhso.maininscl_name} (${rsNhso.maininscl})` : '-';
         this.rightHospital = rsNhso.hmain ? `${rsNhso.hmain_name} (${rsNhso.hmain})` : '-';
         this.rightStartDate = rsNhso.startdate ? `${moment(rsNhso.startdate, 'YYYYMMDD').format('DD MMM ')} ${moment(rsNhso.startdate, 'YYYYMMDD').get('year')}` : '-';
-      } else if (rsPerson.length > 0) {
+      }
+      const rsPerson: any = await this.kioskService.getWuhPersonRight(wuhToken, cid);
+      console.log('result rsPerson : ', rsPerson);
+      if (rsPerson.length > 0) {
         this.rightRegisName = '** บุคคลากรมหาวิทยาลัยวลัยลักษณ์';
-        this.rightName = '-';
-        this.rightHospital = '-';
-        this.rightStartDate = '';
-      } else if (rsStd.length > 0) {
+        this.rightName = rsPerson[0].WRKTNAME;
+        this.rightHospital = rsPerson[0].DIVTHNAME;
+        this.rightStartDate = moment(rsPerson[0].STARTDATE).format('YYYY-MM-DD');
+      }
+      const rsStd: any = await this.kioskService.getWuhStdRight(wuhToken, cid);
+      console.log('result rsStd : ', rsStd);
+      if (rsStd.length > 0) {
         this.rightRegisName = '** นักศึกษามหาวิทยาลัยวลัยลักษณ์';
-        this.rightName = '-';
-        this.rightHospital = '-';
-        this.rightStartDate = '';
-      } else {
-        this.rightRegisName = '';
         this.rightName = '-';
         this.rightHospital = '-';
         this.rightStartDate = '';
