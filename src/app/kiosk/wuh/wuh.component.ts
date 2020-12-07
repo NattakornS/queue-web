@@ -77,7 +77,15 @@ export class WuhComponent implements OnInit {
         }
         this.kioskId = +params.servicePointId || null;
         if (this.kioskId) {
-          sessionStorage.setItem('kioskId', params.servicePointId);
+          localStorage.setItem('kioskId', params.servicePointId);
+        }
+        const clientPrinterId = params.clientPrinterId || null;
+        if (clientPrinterId) {
+          localStorage.setItem('clientPrinterId', clientPrinterId);
+        }
+        const printSmallQueue = params.printSmallQueue || null;
+        if (printSmallQueue) {
+          localStorage.setItem('printSmallQueue', printSmallQueue);
         }
       });
   }
