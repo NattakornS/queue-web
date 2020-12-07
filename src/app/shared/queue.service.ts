@@ -73,6 +73,12 @@ export class QueueService {
     return this.httpClient.get(_url, this.httpOptions).toPromise();
   }
 
+  async getPendinglimit(servicePointId: any, query = '') {
+    const _url = `${this.apiUrl}/queue/pending/${servicePointId}?query=${query}&limit=11`;
+    return this.httpClient.get(_url, this.httpOptions).toPromise();
+  }
+
+
   async getWaitingGroup(servicePointId: any, priorityId: any, limit: number = 20, offset: number = 0) {
     const _url = `${this.apiUrl}/queue/waiting-group/${servicePointId}?priorityId=${priorityId}&limit=${limit}&offset=${offset}`;
     return this.httpClient.get(_url, this.httpOptions).toPromise();

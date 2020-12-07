@@ -5,6 +5,7 @@ import { QueueCenterPatientComponent } from './admin/queue-center-patient/queue-
 import { DisplayQueueDepartmentComponent } from './admin/display-queue-department/display-queue-department.component';
 import { DisplayQueueGroupComponent } from './admin/display-queue-group/display-queue-group.component';
 import { DisplayQueueCustomComponent } from './admin/display-queue-custom/display-queue-custom.component';
+import { DisplayQueueHistoryComponent } from './admin/display-queue-history/display-queue-history.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,8 @@ const routes: Routes = [
   { path: 'display-queue-department', component: DisplayQueueDepartmentComponent },
   { path: 'queue-center-patient', component: QueueCenterPatientComponent },
   { path: 'display-queue-custom', component: DisplayQueueCustomComponent },
+  { path: 'display-queue-history', component: DisplayQueueHistoryComponent },
+
 ];
 
 @NgModule({
