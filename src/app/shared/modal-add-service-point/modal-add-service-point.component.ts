@@ -20,6 +20,7 @@ export class ModalAddServicePointComponent implements OnInit {
     this.prefix = value.prefix;
     this.departmentId = value.department_id;
     this.kios = value.kios === 'Y' ? true : false;
+    this.kioskReg = value.kioskReg === 'Y' ? true : false;
     this.useOldQueue = value.use_old_queue === 'Y' ? true : false;
     this.groupCompare = value.group_compare === 'Y' ? true : false;
     this.priorityQueueRunning = value.priority_queue_running === 'Y' ? true : false;
@@ -39,6 +40,7 @@ export class ModalAddServicePointComponent implements OnInit {
   prefixes: any = [];
 
   kios: any;
+  kioskReg: any;
   useOldQueue: any;
 
   departments: any[];
@@ -98,6 +100,7 @@ export class ModalAddServicePointComponent implements OnInit {
         var useOldQueue = this.useOldQueue ? 'Y' : 'N';
         var groupCompare = this.groupCompare ? 'Y' : 'N';
         var priorityQueueRunning = this.priorityQueueRunning ? 'Y' : 'N';
+        var kioskReg = this.kioskReg ? 'Y' : 'N';
         const data: any = {
           servicePointName: this.servicePointName,
           localCode: this.localCode,
@@ -106,7 +109,8 @@ export class ModalAddServicePointComponent implements OnInit {
           kios: kios,
           useOldQueue: useOldQueue,
           groupCompare: groupCompare,
-          priorityQueueRunning: priorityQueueRunning
+          priorityQueueRunning: priorityQueueRunning,
+          kioskReg: kioskReg
         };
 
         var rs: any;
