@@ -20,7 +20,7 @@ export class ModalAddServicePointComponent implements OnInit {
     this.prefix = value.prefix;
     this.departmentId = value.department_id;
     this.kios = value.kios === 'Y' ? true : false;
-    this.kioskReg = value.kioskReg === 'Y' ? true : false;
+    this.kioskReg = value.kios_reg === 'Y' ? true : false;
     this.useOldQueue = value.use_old_queue === 'Y' ? true : false;
     this.groupCompare = value.group_compare === 'Y' ? true : false;
     this.priorityQueueRunning = value.priority_queue_running === 'Y' ? true : false;
