@@ -258,7 +258,14 @@ export class WuhComponent implements OnInit {
   async getPatient() {
     try {
       if (this.cardCid) {
-        const rs: any = await this.kioskService.getPatient(this.token, { 'cid': this.cardCid });
+        let rs: any = null;
+        if (this.cardCid.length === 13) {
+          rs = await this.kioskService.getPatient(this.token, { 'cid': this.cardCid });
+        } else {
+          this.hisHn = this.cardCid;
+          rs = await this.kioskService.getPatientHn(this.token, { 'hn': this.hisHn });
+          rs.results.hn = this.hisHn;
+        }
         if (rs.statusCode === 200) {
           this.setDataFromHIS(rs.results);
           await this.getServicePoint('old');
