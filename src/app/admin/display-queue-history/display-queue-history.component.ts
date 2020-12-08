@@ -16,8 +16,8 @@ import { ServiceRoomService } from 'src/app/shared/service-room.service';
 
 
 @Component({
-  selector: 'app-display-queue-custom',
-  templateUrl: './display-queue-custom.component.html',
+  selector: 'app-display-queue-history',
+  templateUrl: './display-queue-history.component.html',
   styles: [
     `
     .thai-sarabun {
@@ -43,7 +43,7 @@ import { ServiceRoomService } from 'src/app/shared/service-room.service';
 
   ]
 })
-export class DisplayQueueCustomComponent implements OnInit, OnDestroy {
+export class DisplayQueueHistoryComponent implements OnInit, OnDestroy {
 
   @ViewChild('mdlServicePoint') private mdlServicePoint: ModalSelectServicepointsComponent;
   @ViewChild(CountdownComponent) counter: CountdownComponent;
@@ -475,7 +475,7 @@ export class DisplayQueueCustomComponent implements OnInit, OnDestroy {
 
   async getPending() {
     try {
-      const rs: any = await this.queueService.getPendinglimit(this.servicePointId, this.query);
+      const rs: any = await this.queueService.getPending(this.servicePointId, this.query);
       if (rs.statusCode === 200) {
         this.pendingItems = rs.results;
       } else {
