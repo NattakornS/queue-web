@@ -131,14 +131,14 @@
     </div>
 
   </div>
-  <div *ngIf="kioskId === '1000' && !tabServicePoint" class="row justify-content-center">
+  <div *ngIf="registerMode && !tabServicePoint" class="row justify-content-center">
     <div  class="col-3" style="margin-top: 20px;">
       <button class="btn btn-primary" style="width: 100%;padding: 2rem;font-size: 2.5rem"
-        (click)="registerBlank(getServicePointById('1000'),1)">ผู้ป่วยใหม่</button>
+        (click)="registerBlank(getServicePointById(kioskId),1)">ผู้ป่วยใหม่</button>
     </div>
     <div class="col-3" style="margin-top: 20px;">
       <button class="btn btn-success" style="width: 100%;padding: 2rem;font-size: 2.5rem"
-        (click)="registerBlank(getServicePointById('1000'),2)">ผู้ป่วยเก่า</button>
+        (click)="registerBlank(getServicePointById(kioskId),2)">ผู้ป่วยเก่า</button>
     </div>
   </div>
 </div>

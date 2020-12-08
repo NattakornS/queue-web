@@ -55,6 +55,8 @@ export class WuhComponent implements OnInit {
 
   inputTxt: any;
 
+  registerMode: any;
+
   @ViewChild('mdlQr') private mdlQr: ModalQrComponent;
   modalReference: NgbModalRef;
 
@@ -134,6 +136,7 @@ export class WuhComponent implements OnInit {
     await this.getInfoHospital();
     await this.getServicePoint();
     await this.getAllServicePoint();
+    this.registerMode = await this.isRegisterMode();
   }
 
   connectWebSocket() {
@@ -225,6 +228,11 @@ export class WuhComponent implements OnInit {
       console.log(error);
       this.alertService.serverError();
     }
+  }
+
+  async isRegisterMode() {
+    const rs: any = await this.kioskService.checkMode(this.token, this.kioskId);
+    return rs.result;
   }
 
   async getServicePoint(mode: any = 'new') {
