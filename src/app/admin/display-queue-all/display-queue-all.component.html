@@ -1,0 +1,164 @@
+<div class="container-scroller">
+  <!-- partial:../../partials/_navbar.html -->
+
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+
+    <div class="main-panel">
+      <div class="content-wrapper">
+
+        <div class="card card-inverse-danger" *ngIf="isOffline">
+          <div class="card-body">
+            <p class="mb-4">
+              เกิดข้อผิดพลาดในการเชื่อมต่อกับ Notify Server.
+            </p>
+            <button class="btn btn-danger" (click)="connectWebSocket()">เชื่อมต่อใหม่ (<strong>
+                <countdown [config]="{leftTime: 15, template: '$!s!'}" (finished)="onFinished()"
+                  (notify)="onNotify($event)"></countdown>
+              </strong>)</button>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-12">
+            <div class="row text-white" style="margin: 20px 5px 0px 5px; border-radius: 20px; border: 5px solid white; padding: 10px; background-color:#7344b0 ;">
+              <div class="row col-3" style="margin-right:0px; margin-left:0px;">
+                <div class="col-md-6">
+                  <div class="row bg-primary text-white"
+                    style=" border-radius: 20px; border: 5px solid white; padding: 10px;">
+                    <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem;">
+                      ห้องตรวจ 1
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4" style="padding-left: 30px;">
+                  <div class="row text-white" style=" border-radius: 20px; border: 5px solid white; padding: 10px; background-color:orange ;">
+                    <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center ">
+                      006
+                    </span>
+                  </div>
+                </div>
+              </div>
+           
+              <div class="row col-5" style="margin-left:0px; margin-right:0px;">
+                <div class="col-md-3">
+                  <div class="row text-white"
+                    style=" border-radius: 20px; border: 5px solid white; padding: 10px; background-color:#ff9800;">
+                    <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                      รอเรียก
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-9" style="padding-left: 30px;">
+                  <div class="row text-white" style=" border-radius: 20px; border: 5px solid white; background-color:#9095e0 ;">
+
+                    <div class="text-white" style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>
+                    <div class="text-white" style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>
+                    <div class="text-white" style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>
+                    <div class="text-white" style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>
+                    <div class="text-white" style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>
+                    <div class="text-white" style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>                 
+      
+
+                  </div>
+                </div>
+              </div>
+              <div class="row col-4" style="margin-left:0px; margin-right:0px;">
+                <div class="col-md-3">
+                  <div class="row text-white"
+                    style=" border-radius: 20px; border: 5px solid white; padding: 10px; background-color:#ff9800 ;">
+                    <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                      ข้าม
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-9" style="padding-left: 30px;">
+                  <div class="row text-white" style=" border-radius: 20px; border: 5px solid white; background-color:#9095e0 ;">
+
+                    <div class="text-white"
+                      style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                      <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                        006
+                      </span>
+                    </div>
+                    <div class="text-white"
+                    style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                    <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                      006
+                    </span>
+                  </div>
+                  <div class="text-white"
+                  style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                  <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                    006
+                  </span>
+                </div>
+                <div class="text-white"
+                style=" border-radius: 20px; border: 5px solid white; padding: 7px; margin: 5px; background-color:rgb(235, 53, 21) ;">
+                <span class="font-weight-bold" style="letter-spacing: 1px; font-size: 3rem; width: 100%;text-align: center">
+                  006
+                </span>
+              </div>
+
+                    
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <hr style="color: white;">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="float-left">
+              <i style="cursor: pointer;" *ngIf="isSound" (click)="toggleSound()"
+                class="h2 text-danger float-right mdi mdi-bell-ring"></i>
+              <i style="cursor: pointer;" *ngIf="!isSound" (click)="toggleSound()"
+                class="h2 text-muted float-right mdi mdi-bell-off"></i>
+            </div>
+            <div class="float-right">
+              <span class="h2 font-weight-bold text-primary" style="cursor: pointer" (click)="selectServicePoint()">
+                {{servicePointName || 'กรุณาเลือกจุดบริการ'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+
+<app-modal-select-servicepoints (onSelected)="onSelectedPoint($event)" #mdlServicePoint>
+</app-modal-select-servicepoints>

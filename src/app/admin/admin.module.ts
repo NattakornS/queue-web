@@ -10,6 +10,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DisplayQueueComponent } from './display-queue/display-queue.component';
 import { DisplayQueueCustomComponent } from './display-queue-custom/display-queue-custom.component';
 import { DisplayQueueHistoryComponent } from './display-queue-history/display-queue-history.component';
+import { DisplayQueueAllComponent } from './display-queue-all/display-queue-all.component';
+import { DisplayQueueClinicComponent } from './display-queue-clinic/display-queue-clinic.component';
+import { DisplayQueueFinanceComponent } from './display-queue-finance/display-queue-finance.component';
+
 import { QueueCallerComponent } from './queue-caller/queue-caller.component';
 import { ServicePointComponent } from './settings/service-point/service-point.component';
 import { SharedModule } from '../shared/shared.module';
@@ -36,6 +40,10 @@ import { SettingKioskComponent } from './setting-kiosk/setting-kiosk.component';
     DisplayQueueComponent,
     DisplayQueueCustomComponent,
     DisplayQueueHistoryComponent,
+    DisplayQueueAllComponent,
+    DisplayQueueClinicComponent,
+    DisplayQueueFinanceComponent,
+
     QueueCallerComponent,
     ServicePointComponent,
     UserComponent,
