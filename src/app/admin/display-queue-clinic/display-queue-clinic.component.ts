@@ -16,8 +16,8 @@ import { ServiceRoomService } from 'src/app/shared/service-room.service';
 
 
 @Component({
-  selector: 'app-display-queue-custom',
-  templateUrl: './display-queue-custom.component.html',
+  selector: 'app-display-queue-clinic',
+  templateUrl: './display-queue-clinic.component.html',
   styles: [
     `
     .thai-sarabun {
@@ -43,7 +43,7 @@ import { ServiceRoomService } from 'src/app/shared/service-room.service';
 
   ]
 })
-export class DisplayQueueCustomComponent implements OnInit, OnDestroy {
+export class DisplayQueueClinicComponent implements OnInit, OnDestroy {
 
   @ViewChild('mdlServicePoint') private mdlServicePoint: ModalSelectServicepointsComponent;
   @ViewChild(CountdownComponent) counter: CountdownComponent;
