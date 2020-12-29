@@ -38,6 +38,13 @@
                 <option *ngFor="let item of departments" [value]="item.department_id">{{item.department_name}}</option>
               </select>
             </div>
+            <div class="form-group col-md-4">
+              <label for="prefix" class="required">ประเภทของจุดบริการ</label>
+              <select class="form-control" name="servicePointType" [(ngModel)]="servicePointType">
+                <option value="" selected>เลือก</option>
+                <option *ngFor="let item of servicePointTypes" [value]="item">{{item}}</option>
+              </select>
+            </div>
           </div>
 
           <div class="form-row">

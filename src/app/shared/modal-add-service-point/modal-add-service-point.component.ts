@@ -21,6 +21,7 @@ export class ModalAddServicePointComponent implements OnInit {
     this.departmentId = value.department_id;
     this.kios = value.kios === 'Y' ? true : false;
     this.kioskReg = value.kios_reg === 'Y' ? true : false;
+    this.servicePointType = value.service_point_type || '';
     this.useOldQueue = value.use_old_queue === 'Y' ? true : false;
     this.groupCompare = value.group_compare === 'Y' ? true : false;
     this.priorityQueueRunning = value.priority_queue_running === 'Y' ? true : false;
@@ -38,9 +39,11 @@ export class ModalAddServicePointComponent implements OnInit {
   departmentId: any;
   prefix: any;
   prefixes: any = [];
+  servicePointTypes: any = [];
 
   kios: any;
   kioskReg: any;
+  servicePointType: any;
   useOldQueue: any;
 
   departments: any[];
@@ -59,6 +62,11 @@ export class ModalAddServicePointComponent implements OnInit {
       'ก', 'ข', 'ฃ', 'ค', 'ฅ', 'ฆ', 'ง', 'จ', 'ฉ', 'ช', 'ซ', 'ฌ', 'ญ', 'ฎ', 'ฏ', 'ฐ', 'ฑ',
       'ฒ', 'ณ', 'ด', 'ต', 'ถ', 'ท', 'ธ', 'น', 'บ', 'ป', 'ผ', 'ฝ', 'พ', 'ฟ', 'ภ', 'ม', 'ย',
       'ร', 'ล', 'ว', 'ศ', 'ษ', 'ส', 'ห', 'ฬ', 'อ', 'ฮ',
+    ];
+    this.servicePointTypes = [
+      '',
+      'room',
+      'check_point'
     ];
   }
 
@@ -110,7 +118,8 @@ export class ModalAddServicePointComponent implements OnInit {
           useOldQueue: useOldQueue,
           groupCompare: groupCompare,
           priorityQueueRunning: priorityQueueRunning,
-          kioskReg: kioskReg
+          kioskReg: kioskReg,
+          servicePointType: this.servicePointType
         };
 
         var rs: any;
