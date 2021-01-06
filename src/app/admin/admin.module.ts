@@ -46,6 +46,7 @@ import { SettingKioskComponent } from './setting-kiosk/setting-kiosk.component';
 
     QueueCallerComponent,
     ServicePointComponent,
+
     UserComponent,
     QueueCenterComponent,
     VisitComponent,

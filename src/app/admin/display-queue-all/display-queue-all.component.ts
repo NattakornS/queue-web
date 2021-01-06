@@ -13,6 +13,7 @@ import { CountdownComponent } from 'ngx-countdown';
 import { Router, ActivatedRoute } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ServiceRoomService } from 'src/app/shared/service-room.service';
+import { ServicePointService } from 'src/app/shared/service-point.service';
 
 
 @Component({
@@ -53,6 +54,8 @@ export class DisplayQueueAllComponent implements OnInit, OnDestroy {
 
   servicePointId: any;
   servicePointName: any;
+  servicePointType: any;
+
   workingItems: any = [];
   workingItemsHistory: any = [];
   currentQueueNumber: any;
@@ -88,6 +91,7 @@ export class DisplayQueueAllComponent implements OnInit, OnDestroy {
   totalOld = 0;
   totalNew = 0;
 
+  points: any = [];
 
 
   soundList = [];
@@ -97,7 +101,9 @@ export class DisplayQueueAllComponent implements OnInit, OnDestroy {
     private zone: NgZone,
     private router: Router,
     private route: ActivatedRoute,
-    private roomService: ServiceRoomService
+    private roomService: ServiceRoomService,
+    private servicePointService: ServicePointService
+
 
   ) {
 
@@ -470,6 +476,19 @@ export class DisplayQueueAllComponent implements OnInit, OnDestroy {
     this.getWaiting();
     this.totalOld = 0;
     this.totalNew = 0;
+    this.getListServiceByDepartment();
+
+  }
+
+  async getListServiceByDepartment() {
+  
+      const _servicePoints = sessionStorage.getItem('servicePoints');
+      const jsonDecoded = JSON.parse(_servicePoints);
+      this.points = jsonDecoded;
+   //   this.points = this.points.find(x => x.service_point_type == "1");
+   console.log(this.points);
+    
+
 
   }
 

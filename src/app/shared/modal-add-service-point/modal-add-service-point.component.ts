@@ -63,10 +63,16 @@ export class ModalAddServicePointComponent implements OnInit {
       'ฒ', 'ณ', 'ด', 'ต', 'ถ', 'ท', 'ธ', 'น', 'บ', 'ป', 'ผ', 'ฝ', 'พ', 'ฟ', 'ภ', 'ม', 'ย',
       'ร', 'ล', 'ว', 'ศ', 'ษ', 'ส', 'ห', 'ฬ', 'อ', 'ฮ',
     ];
+    // this.servicePointTypes = [
+    //   '',
+    //   'room',
+    //   'check_point'
+    // ];
     this.servicePointTypes = [
-      '',
-      'room',
-      'check_point'
+     {id:1,service_point_type_name:"ห้องตรวจ"},
+     {id:2,service_point_type_name:"จุดซักประวัติ"},
+     {id:3,service_point_type_name:"คลินิก"},
+    
     ];
   }
 

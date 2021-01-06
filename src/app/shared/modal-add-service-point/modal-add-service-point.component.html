@@ -42,7 +42,7 @@
               <label for="prefix" class="required">ประเภทของจุดบริการ</label>
               <select class="form-control" name="servicePointType" [(ngModel)]="servicePointType">
                 <option value="" selected>เลือก</option>
-                <option *ngFor="let item of servicePointTypes" [value]="item">{{item}}</option>
+                <option *ngFor="let item of servicePointTypes" [value]="item.id">{{item.service_point_type_name}}</option>
               </select>
             </div>
           </div>
